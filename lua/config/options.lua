@@ -11,6 +11,8 @@ vim.opt.guicursor = table.concat({
   "r-cr:ver25-CursorReplace",
 }, ",")
 
+vim.g.have_nerd_font = true
+vim.opt.termguicolors = true
 vim.opt.relativenumber = false
 vim.opt.number = true
 

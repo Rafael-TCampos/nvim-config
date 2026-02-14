@@ -47,6 +47,8 @@ call plug#begin()
     Plug 'plasticboy/vim-markdown'
     Plug 'airblade/vim-gitgutter'
     Plug 'kdheepak/lazygit.nvim'
+    Plug 'CRAG666/code_runner.nvim'
+
 call plug#end()
 
 set termguicolors
@@ -94,5 +96,29 @@ highlight LineNr guifg=#555555 guibg=NONE
 highlight CursorLineNR guifg=#ffcc00 gui=bold
 highlight CursorLine guibg=NONE gui=underline guisp=#444444
 
+let g:loaded_node_provider = 1  " Mantém o node ativo
+let g:loaded_perl_provider = 0  " Desativa o aviso de Perl
+let g:loaded_ruby_provider = 0  " Desativa o aviso de Ruby
 
+
+" Formatar o código automaticamente ao salvar (Prettier)
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.html,*.json Prettier
+
+" Configuração segura do Code Runner
+lua << EOF
+local status, runner = pcall(require, 'code_runner')
+if status then
+  runner.setup({
+    filetype = {
+      javascript = "node",
+      html = "google-chrome-stable",
+    },
+  })
+end
+EOF
+
+
+" Atalho para rodar o código
+nnoremap <silent> <C-r> :RunCode<CR>
 
